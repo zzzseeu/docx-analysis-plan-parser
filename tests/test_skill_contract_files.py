@@ -41,25 +41,41 @@ def test_openai_agent_contract_uses_bioinformatics_diagnosis_workflow():
 
 
 def test_report_template_asset_exists():
-    asset = ROOT / "assets" / "报告格式模板-20250929.docx"
+    asset = ROOT / "templates" / "报告模板新2026.6.29.docx"
 
     assert asset.exists()
     assert asset.stat().st_size > 50_000
     with zipfile.ZipFile(asset) as archive:
         assert "word/document.xml" in archive.namelist()
+        assert "word/comments.xml" in archive.namelist()
 
 
 def test_reference_contracts_exist_and_include_required_rules():
     required = {
         "workflow-stages.md": ["默认暂停", "01_requirements", "07_report_qc"],
         "manifest-schema.md": ["module_id", "execution_mode", "smoke_test_then_manual"],
-        "report-template-map.md": ["<项目编号>_<YYYYMMDD>_report.docx", "只插 PNG", "浅蓝色"],
-        "report-qc-rules.md": ["示例图", "虚构", "PNG"],
+        "report-template-map.md": [
+            "templates/报告模板新2026.6.29.docx",
+            "<项目编号>_<YYYYMMDD>_report.docx",
+            "小二（18 pt）",
+            "exceed 2 A4 pages",
+            "五号（10.5 pt）",
+        ],
+        "report-qc-rules.md": ["19-item", "示例图", "虚构", "PNG 和 PDF", "无调整时明确写 `无`"],
     }
     for filename, terms in required.items():
         text = (ROOT / "references" / filename).read_text(encoding="utf-8")
         for term in terms:
             assert term in text
+
+
+def test_skill_uses_current_report_template_and_caption_contract():
+    skill_text = (ROOT / "SKILL.md").read_text(encoding="utf-8")
+    template_map = (ROOT / "references" / "report-template-map.md").read_text(encoding="utf-8")
+
+    assert "templates/报告模板新2026.6.29.docx" in skill_text
+    assert "五号" in skill_text
+    assert "separate light-blue image-name line" in template_map
 
 
 def test_skill_workflow_paths_match_stage_reference():

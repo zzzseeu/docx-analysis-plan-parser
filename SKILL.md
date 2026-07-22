@@ -15,6 +15,7 @@ Use this skill for diagnosis/mechanism bioinformatics projects that start from a
 
 ## Core Rules
 
+- Follow the integrated department execution and analysis standard in `references/department-bioinformatics-standard.md` for directory layout, script reproducibility, data rules, module thresholds, reporting, review, and delivery.
 - Default to staged execution. 每个阶段完成后暂停，等待用户确认再继续。
 - Use Markdown plus `manifest.csv` outputs as user-facing artifacts; JSON is not a primary deliverable.
 - Create and update `workflow/PROJECT_MEMORY.md` for each project.
@@ -38,7 +39,8 @@ setwd(res_folder)
 - For large single-cell or long-running tasks, run only temporary smoke tests, delete temporary test data/logs, and hand off full execution to the user.
 - Do not keep temporary smoke-test data, logs, or pass/fail records in the project directory.
 - Final report filenames must use `report/<项目编号>_<YYYYMMDD>_report.docx`, with `_v2`, `_v3`, etc. to avoid overwrites.
-- Word reports insert PNG images only. Image order is image, image name, caption; all centered; image name is bold and light blue.
+- Word reports use the formatting, section structure, page breaks, highlighting, tables, and fixed 19-item QC checklist defined in `references/report-template-map.md`.
+- Word reports insert PNG images only. Images and captions are centered; captions use black five-size type（五号）and no standalone light-blue image-name line is added.
 
 ## Workflow
 
@@ -49,11 +51,12 @@ setwd(res_folder)
 5. Generate project code from `templates/code/`; run only safe automatic analyses or smoke tests; write `workflow/04_generated_code.md` and `workflow/04_code_manifest.csv`; pause.
 6. Write `workflow/05_manual_tasks.md` and `workflow/05_manual_manifest.csv` for long-running or non-code-stable modules; pause.
 7. Scan results and prepare `workflow/06_report_inputs.md` and `workflow/06_report_manifest.csv`; pause.
-8. Generate Word report using `assets/报告格式模板-20250929.docx` and the `docx` skill; pause.
+8. Generate Word report using `templates/报告模板新2026.6.29.docx` and the `docx` skill; pause.
 9. Run report QC and write `workflow/07_report_qc.md`.
 
 ## References
 
+- Department execution and analysis standard: `references/department-bioinformatics-standard.md`
 - Stage rules: `references/workflow-stages.md`
 - Manifest schema: `references/manifest-schema.md`
 - Module library: `references/module-library.md`
